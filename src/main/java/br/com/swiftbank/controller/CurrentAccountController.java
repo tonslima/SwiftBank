@@ -23,8 +23,8 @@ public class CurrentAccountController {
 
   @PostMapping
   @Transactional
-  public ResponseEntity create(@RequestBody @Valid CurrentAccountCreateDTO dto , UriComponentsBuilder uriBuilder) {
-    var account = new CurrentAccount(dto);
+  public ResponseEntity<CurrentAccountDetailedDTO> create(@RequestBody @Valid CurrentAccountCreateDTO dto , UriComponentsBuilder uriBuilder) {
+    var account = CurrentAccountCreateDTO.toEntity(dto);
     currentAccountService.create(account);
 
     var uri = uriBuilder.path("/current+account/{id}").buildAndExpand(account.getId()).toUri();

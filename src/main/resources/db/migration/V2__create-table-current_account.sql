@@ -5,7 +5,7 @@ CREATE TABLE `current_account`
     `holder_id` bigint         DEFAULT NULL,
     `id`        bigint NOT NULL AUTO_INCREMENT,
     `agency`    varchar(255)   DEFAULT NULL,
-    `number`    varchar(255)   DEFAULT NULL,
+    `number`    varchar(255)   DEFAULT NULL UNIQUE,
     PRIMARY KEY (`id`),
     KEY         `FKjapxjfm3qo7hyid3igcd5stm3` (`holder_id`),
     CONSTRAINT `FKjapxjfm3qo7hyid3igcd5stm3` FOREIGN KEY (`holder_id`) REFERENCES `holder` (`id`)

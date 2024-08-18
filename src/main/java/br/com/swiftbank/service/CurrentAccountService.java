@@ -14,13 +14,15 @@ public class CurrentAccountService {
   private final HolderService holderService;
 
   public CurrentAccountDetailedDTO create(CurrentAccount account) {
-    if (holderService.existsByCpf(account.getHolder().getCpf())) {
+    var holder = holderService.findByCpf(account.getHolder().getCpf());
+
+    if (holder != null) {
       System.out.println("existe");
+      account.setHolder(holder);
       repository.save(account);
     } else {
       System.out.println("nao existe");
-      holderService.create(account.getHolder());
-      create(account);
+      repository.save(account);
     }
 
     return new CurrentAccountDetailedDTO(account);

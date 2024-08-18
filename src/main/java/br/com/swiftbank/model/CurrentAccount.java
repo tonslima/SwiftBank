@@ -1,17 +1,16 @@
 package br.com.swiftbank.model;
 
 import br.com.swiftbank.dto.currentaccount.CurrentAccountCreateDTO;
+import br.com.swiftbank.dto.holder.HolderCreateDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Table(name = "current_account")
 @Entity(name = "CurrentAccount")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -21,7 +20,7 @@ public class CurrentAccount {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "holder_id")
   private Holder holder;
   private String number;
@@ -29,11 +28,11 @@ public class CurrentAccount {
   private BigDecimal balance;
   private Boolean active;
 
-  public CurrentAccount(CurrentAccountCreateDTO dto) {
-    this.holder = new Holder(dto.holder());
-    this.number = dto.number();
-    this.agency = dto.agency();
-    this.balance = BigDecimal.ZERO;
+  public CurrentAccount(Holder holder, String number, String agency) {
+    this.holder = holder;
+    this.number = number;
+    this.agency = agency;
+    this.balance = new BigDecimal(0);
     this.active = true;
   }
 }

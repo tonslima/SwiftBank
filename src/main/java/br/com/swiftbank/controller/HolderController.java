@@ -23,8 +23,8 @@ public class HolderController {
 
   @PostMapping
   @Transactional
-  public ResponseEntity create(@RequestBody @Valid HolderCreateDTO dto, UriComponentsBuilder uriBuilder ) {
-    var holder = new Holder(dto);
+  public ResponseEntity<HolderDetailedDTO> create(@RequestBody @Valid HolderCreateDTO dto, UriComponentsBuilder uriBuilder ) {
+    var holder = HolderCreateDTO.toEntity(dto);
     holderService.create(holder);
 
     var uri = uriBuilder.path("/holder/{id}").buildAndExpand(holder.getId()).toUri();
@@ -33,7 +33,7 @@ public class HolderController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity detail(@PathVariable Long id) {
+  public ResponseEntity<HolderDetailedDTO> detail(@PathVariable Long id) {
     var holder = holderService.detail(id);
 
     return ResponseEntity.ok(holder);
@@ -41,7 +41,7 @@ public class HolderController {
 
   @PutMapping
   @Transactional
-  public ResponseEntity update(@RequestBody @Valid HolderUpdateDTO dto) {
+  public ResponseEntity<HolderDetailedDTO> update(@RequestBody @Valid HolderUpdateDTO dto) {
     var holder = holderService.update(dto);
 
     return ResponseEntity.ok(holder);
@@ -56,7 +56,7 @@ public class HolderController {
 
   @DeleteMapping
   @Transactional
-  public ResponseEntity delete(@RequestBody @Valid HolderDeleteDTO dto) {
+  public ResponseEntity<Void> delete(@RequestBody @Valid HolderDeleteDTO dto) {
     holderService.delete(dto.cpf());
 
     return ResponseEntity.noContent().build();

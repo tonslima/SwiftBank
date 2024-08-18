@@ -1,6 +1,5 @@
 package br.com.swiftbank.model;
 
-import br.com.swiftbank.dto.holder.HolderCreateDTO;
 import br.com.swiftbank.dto.holder.HolderUpdateDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,13 +27,13 @@ public class Holder {
   private Address address;
   private Boolean active;
 
-  public Holder(HolderCreateDTO dto) {
+  public Holder(String name, String email, String phone, String cpf, Address address) {
+    this.name = name;
+    this.email = email;
+    this.phone = phone;
+    this.cpf = cpf;
+    this.address = address;
     this.active = true;
-    this.name = dto.name();
-    this.email = dto.email();
-    this.phone = dto.phone();
-    this.cpf = dto.cpf();
-    this.address = new Address(dto.address());
   }
 
   public void update(HolderUpdateDTO dto) {

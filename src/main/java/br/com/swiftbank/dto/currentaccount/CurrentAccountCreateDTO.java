@@ -1,6 +1,7 @@
 package br.com.swiftbank.dto.currentaccount;
 
 import br.com.swiftbank.dto.holder.HolderCreateDTO;
+import br.com.swiftbank.model.CurrentAccount;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,4 +20,8 @@ public record CurrentAccountCreateDTO(
   @Pattern(regexp = "\\d{5}")
   String agency
 ) {
+
+  public static CurrentAccount toEntity(CurrentAccountCreateDTO dto) {
+    return new CurrentAccount(HolderCreateDTO.toEntity(dto.holder), dto.number, dto.agency);
+  }
 }
