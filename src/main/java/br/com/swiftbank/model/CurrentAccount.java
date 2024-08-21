@@ -1,7 +1,5 @@
 package br.com.swiftbank.model;
 
-import br.com.swiftbank.dto.currentaccount.CurrentAccountCreateDTO;
-import br.com.swiftbank.dto.holder.HolderCreateDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,4 +33,12 @@ public class CurrentAccount {
     this.balance = new BigDecimal(0);
     this.active = true;
   }
+
+  public CurrentAccount deposit(BigDecimal amount) {
+    this.balance = balance.add(amount);
+
+    return this;
+  }
+
 }
+

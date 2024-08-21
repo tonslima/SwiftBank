@@ -1,5 +1,6 @@
 package br.com.swiftbank.dto.currentaccount;
 
+import br.com.swiftbank.dto.holder.HolderDetailedDTO;
 import br.com.swiftbank.model.CurrentAccount;
 import br.com.swiftbank.model.Holder;
 import java.math.BigDecimal;
@@ -9,7 +10,7 @@ public record CurrentAccountDetailedDTO(
   Long id,
   String number,
   String agency,
-  Holder holder,
+  HolderDetailedDTO holder,
   BigDecimal balance
 ) {
 
@@ -17,7 +18,7 @@ public record CurrentAccountDetailedDTO(
     this(account.getId(),
       account.getNumber(),
       account.getAgency(),
-      account.getHolder(),
+      new HolderDetailedDTO(account.getHolder()),
       account.getBalance());
   }
 }
