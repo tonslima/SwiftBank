@@ -5,20 +5,20 @@ import br.com.swiftbank.model.Holder;
 
 public record HolderListDTO(
 
-  Long id,
-  String name,
-  String email,
-  String phone,
-  String cpf,
-  Address address
+		Long id,
+		String name,
+		String email,
+		String phone,
+		String cpf,
+		Address address
 ) {
 
-  public HolderListDTO(Holder holder) {
-    this(holder.getId(),
-      holder.getName(),
-      holder.getEmail(),
-      holder.getPhone(),
-      holder.getCpf(),
-      holder.getAddress());
-  }
+	public HolderListDTO(Holder holder) {
+		this(holder.getId(),
+				holder.getName(),
+				holder.getEmail(),
+				holder.getPhone(),
+				holder.getCpf(),
+				holder.getAddress());
+	}
 }

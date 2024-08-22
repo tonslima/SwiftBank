@@ -1,8 +1,5 @@
 package br.com.swiftbank.service;
 
-import br.com.swiftbank.dto.holder.HolderDetailedDTO;
-import br.com.swiftbank.dto.holder.HolderListDTO;
-import br.com.swiftbank.dto.holder.HolderUpdateDTO;
 import br.com.swiftbank.model.Holder;
 import br.com.swiftbank.repository.HolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,49 +11,35 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HolderService {
 
-  private final HolderRepository repository;
+	private final HolderRepository repository;
 
-  public HolderDetailedDTO create(Holder holder) {
-    repository.save(holder);
+	public Holder create(Holder holder) {
+		repository.save(holder);
 
-    return new HolderDetailedDTO(holder);
-  }
+		return holder;
+	}
 
-  public Holder findById(Long id) {
-    return repository.getReferenceById(id);
-  }
+	public Holder findByCpf(String cpf) {
+		return repository.findByCpf(cpf);
+	}
 
-  public Holder findByCpf(String cpf) {
-    return repository.findByCpf(cpf);
-  }
+	public Holder detail(Long id) {
+		return repository.findById(id).get();
+	}
 
-  public HolderDetailedDTO detail(Long id) {
-    var holder = findById(id);
+	public Holder update(Holder holder) {
+		return repository.findById(holder.getId()).get();
+	}
 
-    return new HolderDetailedDTO(holder);
-  }
+	public Page<Holder> list(Pageable pageable) {
+		return repository.findAllByActiveTrue(pageable);
+	}
 
-  public HolderDetailedDTO update(HolderUpdateDTO dto) {
-    var holder = findById(dto.id());
-    holder.update(dto);
+	public void delete(Long id) {
+		repository.findById(id).get().delete();
+	}
 
-    return new HolderDetailedDTO(holder);
-  }
-
-  public Page<HolderListDTO> list(Pageable pageable) {
-    var holders = repository.findAllByActiveTrue(pageable)
-      .map(HolderListDTO::new);
-
-    return holders;
-  }
-
-  public void delete(String cpf) {
-    findByCpf(cpf).delete();
-  }
-
-  public boolean existsByCpf(String cpf) {
-    var result = repository.existsByCpf(cpf);
-
-    return result;
-  }
+	public boolean existsByCpf(String cpf) {
+		return repository.existsByCpf(cpf);
+	}
 }

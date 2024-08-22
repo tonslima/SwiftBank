@@ -17,49 +17,49 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping("/holder")
 public class HolderController {
 
-  private final HolderService holderService;
+	private final HolderService holderService;
 
+	@PostMapping
+	@Transactional
+	public ResponseEntity<HolderDetailedDTO> create(@RequestBody @Valid HolderCreateDTO dto, UriComponentsBuilder uriBuilder) {
+		var holder = HolderCreateDTO.toEntity(dto);
+		holderService.create(holder);
 
-  @PostMapping
-  @Transactional
-  public ResponseEntity<HolderDetailedDTO> create(@RequestBody @Valid HolderCreateDTO dto, UriComponentsBuilder uriBuilder ) {
-    var holder = HolderCreateDTO.toEntity(dto);
-    holderService.create(holder);
+		var uri = uriBuilder.path("/holder/{id}").buildAndExpand(holder.getId()).toUri();
 
-    var uri = uriBuilder.path("/holder/{id}").buildAndExpand(holder.getId()).toUri();
+		return ResponseEntity.created(uri).body(new HolderDetailedDTO(holder));
+	}
 
-    return ResponseEntity.created(uri).body(new HolderDetailedDTO(holder));
-  }
+	@GetMapping("/{id}")
+	public ResponseEntity<HolderDetailedDTO> detail(@PathVariable Long id) {
+		var holder = holderService.detail(id);
 
-  @GetMapping("/{id}")
-  public ResponseEntity<HolderDetailedDTO> detail(@PathVariable Long id) {
-    var holder = holderService.detail(id);
+		return ResponseEntity.ok(new HolderDetailedDTO(holder));
+	}
 
-    return ResponseEntity.ok(holder);
-  }
+	@PutMapping
+	@Transactional
+	public ResponseEntity<HolderDetailedDTO> update(@RequestBody @Valid HolderUpdateDTO dto) {
+		var holder = HolderUpdateDTO.toEntity(dto);
+		holderService.update(holder);
 
-  @PutMapping
-  @Transactional
-  public ResponseEntity<HolderDetailedDTO> update(@RequestBody @Valid HolderUpdateDTO dto) {
-    var holder = holderService.update(dto);
+		return ResponseEntity.ok(new HolderDetailedDTO(holder));
+	}
 
-    return ResponseEntity.ok(holder);
-  }
+	@GetMapping
+	public ResponseEntity<Page<HolderListDTO>> list(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable) {
+		var holders = holderService.list(pageable).map(HolderListDTO::new);
 
-  @GetMapping
-  public ResponseEntity<Page<HolderListDTO>> list(@PageableDefault(size = 10, sort = {"name"}) Pageable pageable) {
-    var holders = holderService.list(pageable);
+		return ResponseEntity.ok(holders);
+	}
 
-    return ResponseEntity.ok(holders);
-  }
+	@DeleteMapping
+	@Transactional
+	public ResponseEntity<Void> delete(@RequestBody @Valid HolderDeleteDTO dto) {
+		holderService.delete(dto.id());
 
-  @DeleteMapping
-  @Transactional
-  public ResponseEntity<Void> delete(@RequestBody @Valid HolderDeleteDTO dto) {
-    holderService.delete(dto.cpf());
-
-    return ResponseEntity.noContent().build();
-  }
+		return ResponseEntity.noContent().build();
+	}
 
 
 }

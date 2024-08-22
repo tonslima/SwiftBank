@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface CurrentAccountRepository extends JpaRepository<CurrentAccount, Long> {
     List<CurrentAccount> findByHolderCpf(String cpf);
+
+
+    CurrentAccount findByNumberAndAgency(String number, String agency);
 }

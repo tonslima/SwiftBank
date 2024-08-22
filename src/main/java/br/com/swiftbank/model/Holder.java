@@ -15,43 +15,50 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id")
 public class Holder {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private String name;
-  private String email;
-  private String phone;
-  private String cpf;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String name;
+	private String email;
+	private String phone;
+	private String cpf;
 
-  @Embedded
-  private Address address;
-  private Boolean active;
+	@Embedded
+	private Address address;
+	private Boolean active;
 
-  public Holder(String name, String email, String phone, String cpf, Address address) {
-    this.name = name;
-    this.email = email;
-    this.phone = phone;
-    this.cpf = cpf;
-    this.address = address;
-    this.active = true;
-  }
+	public Holder(String name, String email, String phone, String cpf, Address address) {
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.cpf = cpf;
+		this.address = address;
+		this.active = true;
+	}
 
-  public void update(HolderUpdateDTO dto) {
-    if (dto.name() != null) {
-      this.name = dto.name();
-    }
-    if (dto.email() != null) {
-      this.email = dto.email();
-    }
-    if (dto.phone() != null) {
-      this.phone = dto.phone();
-    }
-    if (dto.address() != null) {
-      this.address.update(dto.address());
-    }
-  }
+	public Holder(String name, String email, String phone, Address address) {
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+	}
 
-  public void delete() {
-    this.active = false;
-  }
+	public void update(HolderUpdateDTO dto) {
+		if (dto.name() != null) {
+			this.name = dto.name();
+		}
+		if (dto.email() != null) {
+			this.email = dto.email();
+		}
+		if (dto.phone() != null) {
+			this.phone = dto.phone();
+		}
+		if (dto.address() != null) {
+			this.address.update(dto.address());
+		}
+	}
+
+	public void delete() {
+		this.active = false;
+	}
 }

@@ -1,17 +1,13 @@
 package br.com.swiftbank.service;
 
-import br.com.swiftbank.dto.currentaccount.BalanceDTO;
 import br.com.swiftbank.dto.currentaccount.CurrentAccountDetailedDTO;
-import br.com.swiftbank.dto.currentaccount.ValueDTO;
 import br.com.swiftbank.model.CurrentAccount;
 import br.com.swiftbank.repository.CurrentAccountRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +17,7 @@ public class CurrentAccountService {
   private final HolderService holderService;
 
 
-  public CurrentAccountDetailedDTO create(CurrentAccount account) {
+  public CurrentAccount create(CurrentAccount account) {
     var holder = holderService.findByCpf(account.getHolder().getCpf());
 
     if (holder != null) {
@@ -33,11 +29,7 @@ public class CurrentAccountService {
       repository.save(account);
     }
 
-    return new CurrentAccountDetailedDTO(account);
-  }
-
-  public CurrentAccount findById(Long id) {
-    return repository.getReferenceById(id);
+    return account;
   }
 
   public List<CurrentAccount> findByCpf(String cpf) {
@@ -45,7 +37,7 @@ public class CurrentAccountService {
   }
 
   public CurrentAccount showBalance(Long id) {
-    return findById(id);
+    return repository.findById(id).get();
   }
 
   public CurrentAccount deposit(Long id, BigDecimal amount) throws Exception {
@@ -58,5 +50,15 @@ public class CurrentAccountService {
     var account = repository.findById(id).get();
 
     return account.withdraw(amount);
+  }
+
+  public CurrentAccount transfer(Long id, BigDecimal amount, String number, String agency) throws Exception {
+    var oAccount = repository.findById(id).get();
+    oAccount.withdraw(amount);
+
+    var dAccount = repository.findByNumberAndAgency(number, agency);
+    dAccount.deposit(amount);
+
+    return oAccount;
   }
 }

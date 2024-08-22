@@ -1,9 +1,6 @@
 package br.com.swiftbank.controller;
 
-import br.com.swiftbank.dto.currentaccount.ValueDTO;
-import br.com.swiftbank.dto.currentaccount.BalanceDTO;
-import br.com.swiftbank.dto.currentaccount.CurrentAccountCreateDTO;
-import br.com.swiftbank.dto.currentaccount.CurrentAccountDetailedDTO;
+import br.com.swiftbank.dto.currentaccount.*;
 import br.com.swiftbank.service.CurrentAccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -52,4 +49,14 @@ public class CurrentAccountController {
 
         return ResponseEntity.ok(new CurrentAccountDetailedDTO(account));
     }
+
+    @PostMapping("{id}/transfer")
+    @Transactional
+    public ResponseEntity<CurrentAccountDetailedDTO> transfer(@PathVariable Long id, @RequestBody TransferDTO dto) throws Exception {
+
+        var account = currentAccountService.transfer(id, dto.value(), dto.number(), dto.agency());
+
+        return ResponseEntity.ok(new CurrentAccountDetailedDTO(account));
+    }
+
 }
