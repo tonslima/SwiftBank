@@ -1,7 +1,6 @@
 package br.com.swiftbank.controller;
 
 import br.com.swiftbank.dto.holder.*;
-import br.com.swiftbank.model.Holder;
 import br.com.swiftbank.service.HolderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -61,5 +60,6 @@ public class HolderController {
 
     return ResponseEntity.noContent().build();
   }
+
 
 }

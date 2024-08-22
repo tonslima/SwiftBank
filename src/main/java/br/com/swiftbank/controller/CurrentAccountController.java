@@ -32,16 +32,24 @@ public class CurrentAccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<BalanceDTO> showBalance(@PathVariable Long id) {
-        var balance = currentAccountService.showBalance(id);
+        var account = currentAccountService.showBalance(id);
 
-        return ResponseEntity.ok(balance);
+        return ResponseEntity.ok(new BalanceDTO(account));
     }
 
     @PostMapping("/{id}/deposit")
     @Transactional
-    public ResponseEntity<CurrentAccountDetailedDTO> deposit(@RequestBody @Valid ValueDTO amount, @PathVariable Long id, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<CurrentAccountDetailedDTO> deposit(@RequestBody @Valid ValueDTO amount, @PathVariable Long id) throws Exception {
       var account = currentAccountService.deposit(id, amount.value());
 
       return ResponseEntity.ok(new CurrentAccountDetailedDTO(account));
+    }
+
+    @PostMapping("{id}/withdraw")
+    @Transactional
+    public ResponseEntity<CurrentAccountDetailedDTO> withdraw(@RequestBody @Valid ValueDTO amount, @PathVariable Long id) throws Exception {
+        var account = currentAccountService.withdraw(id,amount.value());
+
+        return ResponseEntity.ok(new CurrentAccountDetailedDTO(account));
     }
 }

@@ -2,8 +2,10 @@ package br.com.swiftbank.service;
 
 import br.com.swiftbank.dto.currentaccount.BalanceDTO;
 import br.com.swiftbank.dto.currentaccount.CurrentAccountDetailedDTO;
+import br.com.swiftbank.dto.currentaccount.ValueDTO;
 import br.com.swiftbank.model.CurrentAccount;
 import br.com.swiftbank.repository.CurrentAccountRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,14 +44,19 @@ public class CurrentAccountService {
     return repository.findByHolderCpf(cpf);
   }
 
-  public BalanceDTO showBalance(Long id) {
-    var currentAccount = findById(id);
-
-    return new BalanceDTO(currentAccount);
+  public CurrentAccount showBalance(Long id) {
+    return findById(id);
   }
 
-  public CurrentAccount deposit(Long id, BigDecimal amount) {
+  public CurrentAccount deposit(Long id, BigDecimal amount) throws Exception {
     var account = repository.findById(id).get();
+
     return account.deposit(amount);
+  }
+
+  public CurrentAccount withdraw(Long id, BigDecimal amount) throws Exception {
+    var account = repository.findById(id).get();
+
+    return account.withdraw(amount);
   }
 }

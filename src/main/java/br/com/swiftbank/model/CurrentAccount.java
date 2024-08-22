@@ -1,5 +1,7 @@
 package br.com.swiftbank.model;
 
+import br.com.swiftbank.dto.currentaccount.CurrentAccountDetailedDTO;
+import br.com.swiftbank.dto.currentaccount.ValueDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,11 +36,24 @@ public class CurrentAccount {
     this.active = true;
   }
 
-  public CurrentAccount deposit(BigDecimal amount) {
-    this.balance = balance.add(amount);
+  public CurrentAccount deposit(BigDecimal amount) throws Exception {
+    if (amount.compareTo(BigDecimal.ZERO) > 0) {
+      this.balance = balance.add(amount);
+    } else {
+      throw new Exception();
+    }
 
     return this;
   }
 
+  public CurrentAccount withdraw(BigDecimal amount) throws Exception {
+    if (this.balance.compareTo(amount) >= 0 && amount.compareTo(BigDecimal.ZERO) > 0) {
+      this.balance = balance.subtract(amount);
+    } else {
+      throw new Exception();
+    }
+
+    return this;
+  }
 }
 
