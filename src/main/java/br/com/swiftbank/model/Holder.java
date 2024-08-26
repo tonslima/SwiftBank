@@ -27,6 +27,7 @@ public class Holder {
 	private Address address;
 	private Boolean active;
 
+	// construtor para create
 	public Holder(String name, String email, String phone, String cpf, Address address) {
 		this.name = name;
 		this.email = email;
@@ -36,6 +37,7 @@ public class Holder {
 		this.active = true;
 	}
 
+	// construtor para update
 	public Holder(String name, String email, String phone, Address address) {
 		this.name = name;
 		this.email = email;
@@ -43,19 +45,21 @@ public class Holder {
 		this.address = address;
 	}
 
-	public void update(HolderUpdateDTO dto) {
-		if (dto.name() != null) {
-			this.name = dto.name();
+	public Holder update(Holder update) {
+		if (update.name != null) {
+			this.name = update.name;
 		}
-		if (dto.email() != null) {
-			this.email = dto.email();
+		if (update.email != null) {
+			this.email = update.email;
 		}
-		if (dto.phone() != null) {
-			this.phone = dto.phone();
+		if (update.phone != null) {
+			this.phone = update.phone;
 		}
-		if (dto.address() != null) {
-			this.address.update(dto.address());
+		if (update.address != null) {
+			this.address.update(update.address);
 		}
+
+		return this;
 	}
 
 	public void delete() {

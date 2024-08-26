@@ -14,9 +14,7 @@ public class HolderService {
 	private final HolderRepository repository;
 
 	public Holder create(Holder holder) {
-		repository.save(holder);
-
-		return holder;
+		return repository.save(holder);
 	}
 
 	public Holder findByCpf(String cpf) {
@@ -27,8 +25,10 @@ public class HolderService {
 		return repository.findById(id).get();
 	}
 
-	public Holder update(Holder holder) {
-		return repository.findById(holder.getId()).get();
+	public Holder update(Long id, Holder update) {
+		Holder holder = repository.findById(id).get();
+
+		return holder.update(update);
 	}
 
 	public Page<Holder> list(Pageable pageable) {

@@ -1,7 +1,5 @@
 package br.com.swiftbank.model;
 
-import br.com.swiftbank.dto.currentaccount.CurrentAccountDetailedDTO;
-import br.com.swiftbank.dto.currentaccount.ValueDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +26,7 @@ public class CurrentAccount {
   private BigDecimal balance;
   private Boolean active;
 
+  // create construtor
   public CurrentAccount(Holder holder, String number, String agency) {
     this.holder = holder;
     this.number = number;
@@ -54,6 +53,10 @@ public class CurrentAccount {
     }
 
     return this;
+  }
+
+  public void delete() {
+    this.active = false;
   }
 }
 

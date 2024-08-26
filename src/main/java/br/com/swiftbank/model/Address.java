@@ -34,30 +34,30 @@ public class Address {
     this.complement = dto.complement();
   }
 
-  public void update(AddressDTO address) {
-    if (address.street() != null) {
-      this.street = address.street();
+  public void update(Address update) {
+    if (update.street != null) {
+      this.street = update.street;
     }
-    if (address.number() != null) {
-      this.number = address.number();
+    if (update.number != null) {
+      this.number = update.number;
     }
-    if (address.district() != null) {
-      this.district = address.district();
+    if (update.district != null) {
+      this.district = update.district;
     }
-    if (address.cep() != null) {
-      this.cep = address.cep();
+    if (update.cep != null) {
+      this.cep = update.cep;
     }
-    if (address.city() != null) {
-      this.city = address.city();
+    if (update.city != null) {
+      this.city = update.city;
     }
-    if (address.uf() != null) {
-      this.uf = address.uf();
+    if (update.uf != null) {
+      this.uf = update.uf;
     }
-    if (address.country() != null) {
-      this.country = address.country();
+    if (update.country != null) {
+      this.country = update.country;
     }
-    if (address.complement() != null) {
-      this.complement = address.complement();
+    if (update.complement != null) {
+      this.complement = update.complement;
     }
   }
 }

@@ -1,13 +1,14 @@
 package br.com.swiftbank.service;
 
-import br.com.swiftbank.dto.currentaccount.CurrentAccountDetailedDTO;
 import br.com.swiftbank.model.CurrentAccount;
+import br.com.swiftbank.model.Holder;
 import br.com.swiftbank.repository.CurrentAccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +31,6 @@ public class CurrentAccountService {
     }
 
     return account;
-  }
-
-  public List<CurrentAccount> findByCpf(String cpf) {
-    return repository.findByHolderCpf(cpf);
   }
 
   public CurrentAccount showBalance(Long id) {
@@ -60,5 +57,24 @@ public class CurrentAccountService {
     dAccount.deposit(amount);
 
     return oAccount;
+  }
+
+	public Page<CurrentAccount> list(Pageable pageable) {
+    return repository.findAllByActiveTrue(pageable);
+	}
+
+  public CurrentAccount update(Long id , Holder update) {
+     CurrentAccount account = repository.findById(id).get();
+     account.getHolder().update(update);
+
+     return account;
+  }
+
+  public CurrentAccount detail(Long id) {
+    return repository.findById(id).get();
+  }
+
+  public void delete(Long id) {
+    repository.findById(id).get().delete();
   }
 }
