@@ -38,7 +38,7 @@ public class HolderController {
 		return ResponseEntity.ok(new HolderDetailedDTO(holder));
 	}
 
-	@PostMapping("/{id}/update")
+	@PatchMapping ("/{id}/update")
 	@Transactional
 	public ResponseEntity<HolderDetailedDTO> update(@PathVariable Long id, @RequestBody @Valid HolderUpdateDTO dto) {
 		Holder update = HolderUpdateDTO.toEntity(dto);

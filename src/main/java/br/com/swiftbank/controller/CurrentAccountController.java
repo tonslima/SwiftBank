@@ -38,7 +38,7 @@ public class CurrentAccountController {
 		return ResponseEntity.ok(new BalanceDTO(account));
 	}
 
-	@PostMapping("/{id}/deposit")
+	@PatchMapping("/{id}/deposit")
 	@Transactional
 	public ResponseEntity<CurrentAccountDetailedDTO> deposit(@RequestBody @Valid ValueDTO amount, @PathVariable Long id) throws Exception {
 		var account = currentAccountService.deposit(id, amount.value());
@@ -46,7 +46,7 @@ public class CurrentAccountController {
 		return ResponseEntity.ok(new CurrentAccountDetailedDTO(account));
 	}
 
-	@PostMapping("{id}/withdraw")
+	@PatchMapping("{id}/withdraw")
 	@Transactional
 	public ResponseEntity<CurrentAccountDetailedDTO> withdraw(@RequestBody @Valid ValueDTO amount, @PathVariable Long id) throws Exception {
 		var account = currentAccountService.withdraw(id, amount.value());
@@ -54,7 +54,7 @@ public class CurrentAccountController {
 		return ResponseEntity.ok(new CurrentAccountDetailedDTO(account));
 	}
 
-	@PostMapping("{id}/transfer")
+	@PatchMapping("{id}/transfer")
 	@Transactional
 	public ResponseEntity<CurrentAccountDetailedDTO> transfer(@PathVariable Long id, @RequestBody TransferDTO dto) throws Exception {
 
@@ -70,7 +70,7 @@ public class CurrentAccountController {
 		return ResponseEntity.ok(accounts);
 	}
 
-	@PostMapping("{id}/update")
+	@PatchMapping("{id}/update")
 	@Transactional
 	public ResponseEntity<CurrentAccountDetailedDTO> update(@PathVariable Long id, @RequestBody @Valid HolderUpdateDTO update) {
 		var holder = HolderUpdateDTO.toEntity(update);
