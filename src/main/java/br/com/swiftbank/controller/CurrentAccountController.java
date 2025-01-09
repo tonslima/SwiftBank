@@ -79,7 +79,7 @@ public class CurrentAccountController {
 		return ResponseEntity.ok(new CurrentAccountDetailedDTO(account));
 	}
 
-	@GetMapping("{id}/detail")
+	@GetMapping("/{id}/detail")
 	public ResponseEntity<CurrentAccountDetailedDTO> detail(@PathVariable Long id) {
 		var account = currentAccountService.detail(id);
 
