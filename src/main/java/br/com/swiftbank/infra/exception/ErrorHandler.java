@@ -1,4 +1,4 @@
-package br.com.swiftbank.exception;
+package br.com.swiftbank.infra.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
