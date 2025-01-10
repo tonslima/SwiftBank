@@ -1,6 +1,9 @@
 package br.com.swiftbank.controller;
 
 import br.com.swiftbank.dto.authentication.AuthenticationDTO;
+import br.com.swiftbank.dto.authentication.TokenJWTDTO;
+import br.com.swiftbank.model.User;
+import br.com.swiftbank.service.TokenService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Void> login(@RequestBody @Valid AuthenticationDTO dto) {
-        var token = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
-        var authentication = authenticationManager.authenticate(token);
+    public ResponseEntity<TokenJWTDTO> login(@RequestBody @Valid AuthenticationDTO dto) {
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
+        var authentication = authenticationManager.authenticate(authenticationToken);
 
-        return ResponseEntity.ok().build();
+        var tokenJWT = tokenService.generateToken((User) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new TokenJWTDTO(tokenJWT));
     }
 
 }
